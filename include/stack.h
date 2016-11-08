@@ -40,7 +40,7 @@ void destroy(FwdIter first, FwdIter last) noexcept
 }
 
 template <typename T>
-allocator<T>::allocator(size_t size) : ptr_(static_cast<T *>(size == 0 ? nullptr : operator new(size * sizeof(T)))), size_(size), count_(size) {
+allocator<T>::allocator(size_t size) : ptr_(static_cast<T *>(size == 0 ? nullptr : operator new(size * sizeof(T)))), size_(size), count_(0) {
 };
 
 template <typename T>
