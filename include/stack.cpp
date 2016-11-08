@@ -58,3 +58,10 @@ auto stack<T>::top() const->T const& {
 	return allocator<T>::array_[allocator<T>::count_-1];
 
 }
+
+template <typename T>
+auto stack<T>::top()->T& {
+	if (allocator<T>::count_ == 0) throw std::logic_error("Empty!");
+	return allocator<T>::array_[allocator<T>::count_-1];
+
+}
