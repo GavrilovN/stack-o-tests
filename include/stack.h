@@ -45,8 +45,10 @@ allocator<T>::allocator(size_t size) : ptr_(static_cast<T *>(size == 0 ? nullptr
 
 template <typename T>
 allocator<T>::~allocator() {
-operator delete(array_);
-};
+{
+	destroy(array_, array_ + array_size_);
+	operator delete(array_);
+}
 
 template <typename T>
 auto allocator<T>::swap(allocator& other)->void {
