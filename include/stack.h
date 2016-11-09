@@ -64,7 +64,7 @@ template <typename T>
 class stack : private allocator<T>
 {
 public:
-	stack();/*noexcept*/
+	stack(size_t size = 0);/*noexcept*/
 	stack(stack const &); /*strong*/
 	auto count() const noexcept->size_t;/*noexcept*/
 	auto push(T const &)->void;/*strong*/
