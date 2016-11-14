@@ -22,7 +22,13 @@ protected:
 
 template <typename T1, typename T2>
 auto construct(T1 * array_, T2 const & value)->void {
-	new(array_) T1(value);
+	try {
+		new(array_) T1(value);
+	}
+	catch (...) {
+		std::cout << "Exception" << std::endl;
+		destroy(allocator<T>::array_, allocator<T>::array_ + allocator<T>::count_);
+	}
 }
 
 template <typename T>
@@ -102,14 +108,10 @@ auto stack<T>::push(T const &val)->void {
 
 template <typename T>
 stack<T>::stack(stack const &tmp): allocator<T>(tmp.size_){
-	try{
+	
 	for (size_t i = 0; i < tmp.count_; i++) construct(allocator<T>::array_ + i, tmp.array_[i]);
 	allocator<T>::count_ = tmp.count_;
-	}
-	catch(...){
-		std::cout<<"Exception"<<std::endl;
-		destroy(allocator<T>::array_, allocator<T>::array_ + allocator<T>::count_);
-	}
+	
 };
 
 template <typename T>
@@ -146,3 +148,4 @@ auto stack<T>::top()->T& {
 	return allocator<T>::array_[allocator<T>::count_-1];
 
 }
+
