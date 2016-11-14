@@ -102,8 +102,14 @@ auto stack<T>::push(T const &val)->void {
 
 template <typename T>
 stack<T>::stack(stack const &tmp): allocator<T>(tmp.size_){
+	try{
 	for (size_t i = 0; i < tmp.count_; i++) construct(allocator<T>::array_ + i, tmp.array_[i]);
 	allocator<T>::count_ = tmp.count_;
+	}
+	catch(...){
+		std::cout<<"Exception"<<std::endl;
+		destroy(allocator<T>::array_, allocator<T>::array_ + allocator<T>::count_);
+	}
 };
 
 template <typename T>
