@@ -146,7 +146,7 @@ allocator<T>::allocator(allocator const & tmp) :allocator<T>(tmp.size_){
 template <typename T>//деструктор
 allocator<T>::~allocator() {
 	if (map_->counter() > 0) {
-		destroy(ptr_, ptr_ + map_->counter());
+		operator delete(ptr_ + map_->counter());
 	}
 	operator delete(ptr_);
 };
@@ -170,12 +170,16 @@ auto allocator<T>::construct(T * ptr, T const & value)->void {
 	
 }
 
-template <typename T>//удаление всего ptr_
-auto allocator<T>::destroy(T * ptr)->void
-{
-
-	ptr->~T();
-	map_->reset(ptr - ptr_);	
+template<typename T>
+auto allocator<T>::destroy(T* ptr)->void{ 
+	if (ptr < ptr_ || ptr >= ptr_ + size_) 
+	{
+ 		throw("bad_index");
+ 	}
+		ptr->~T(); 
+		     if(map->test(ptr-ptr_)) { 
+			ptr->~T();
+                          map->reset(ptr-ptr_);}
 }
 
 
