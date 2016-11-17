@@ -48,7 +48,7 @@ bitset::bitset(size_t size) :
 
 auto bitset::reset(size_t index)->void {
 	
-	if (index <= size()) {
+	if (index < size()) {
 		if (test(index) != false) {
 			ptr_[index] = false;
 			--counter_;
@@ -64,7 +64,7 @@ auto bitset::reset(size_t index)->void {
 auto bitset::set(size_t index)->void {
 	
 	
-	if (index <= size()) {
+	if (index < size()) {
 		if (test(index) != true) {
 			
 			ptr_[index] = true;
@@ -81,7 +81,7 @@ auto bitset::set(size_t index)->void {
 
 
 auto bitset::test(size_t index) ->bool{
-	if (index <= size()) {
+	if (index < size()) {
 		return ptr_[index];
 	}
 	else {
