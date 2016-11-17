@@ -176,7 +176,6 @@ auto allocator<T>::destroy(T* ptr)->void{
 	{
  		throw("bad_index");
  	}
-		ptr->~T(); 
 		     if(map_->test(ptr-ptr_)) { 
 			ptr->~T();
                           map_->reset(ptr-ptr_);}
