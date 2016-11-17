@@ -22,13 +22,7 @@ protected:
 
 template <typename T1, typename T2>
 auto construct(T1 * array_, T2 const & value)->void {
-	try {
 		new(array_) T1(value);
-	}
-	catch (...) {
-		std::cout << "Exception" << std::endl;
-		destroy(allocator<T>::array_, allocator<T>::array_ + allocator<T>::count_);
-	}
 }
 
 template <typename T>
