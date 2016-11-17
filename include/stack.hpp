@@ -196,7 +196,6 @@ auto allocator<T>::resize()-> void {
 {		buff.construct(buff.ptr_ + i, ptr_[i]);}
 	}
 	this->swap(buff);
-	size_ = size;
 }
 
 template<typename T>//проверка на пустоту
