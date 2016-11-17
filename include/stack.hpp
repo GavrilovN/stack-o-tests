@@ -46,7 +46,7 @@ allocator<T>::allocator(size_t size) : ptr_(static_cast<T *>(size == 0 ? nullptr
 template <typename T>
 allocator<T>::~allocator() {
 {
-	destroy(array_, array_ + array_size_);
+	destroy(array_, array_ + array_size);
 	operator delete(array_);
 }
 
@@ -67,6 +67,7 @@ public:
 	stack(size_t size = 0);/*noexcept*/
 	stack(stack const &); /*strong*/
 	auto count() const noexcept->size_t;/*noexcept*/
+	size_t array_size() const; /* noexcept */
 	auto push(T const &)->void;/*strong*/
 	auto pop()->void;/*strong*/
 	auto top() const->T const&;/*strong*/
