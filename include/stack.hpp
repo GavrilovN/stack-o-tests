@@ -148,7 +148,6 @@ allocator<T>::~allocator() {
 	if (map_->counter() > 0) {
 		destroy(ptr_, ptr_ + map_->counter());
 	}
-	operator delete(ptr_);
 };
 
 template <typename T>//реализация свап
