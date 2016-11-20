@@ -146,7 +146,7 @@ allocator<T>::allocator(allocator const & tmp) :allocator<T>(tmp.size_){
 template <typename T>//деструктор
 allocator<T>::~allocator() {
 	if (map_->counter() > 0) {
-		destroy(ptr_, ptr_ + map_->counter());
+		destroy(ptr_, ptr_ + map_->size());
 	}
 };
 
