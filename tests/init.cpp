@@ -1,7 +1,10 @@
-#include <stack.hpp>
+#include "stack.hpp"
 #include <catch.hpp>
 #include <iostream>
-
+#include <thread>
+#include<mutex>
+using namespace std;
+ 
 SCENARIO("count", "[count]"){
   stack<int> s;
   s.push(1);
@@ -12,12 +15,12 @@ SCENARIO("push", "[push]"){
   stack<int> s;
   s.push(1);
   REQUIRE(s.count()==1);
-  REQUIRE(s.top()==1);
 }
 
 SCENARIO("pop", "[pop]"){
   stack<int> s;
-  s.push(1); s.pop();
+  s.push(1);
+  REQUIRE(*(s.pop())==1);	
   REQUIRE(s.count()==0);
 }
 
@@ -27,21 +30,6 @@ SCENARIO("prisv", "[prisv]"){
   stack<int> s2;
   s2=s;
   REQUIRE(s.count()==1);
-  REQUIRE(s.top()==1);
-}
-
-SCENARIO("cop", "[cop]"){
-  stack<int> s;
-  s.push(1);
-  stack<int> s2=s;
-  REQUIRE(s2.count()==1);
-  REQUIRE(s2.top()==1);
-}
-
-SCENARIO("top", "[top]"){
-  stack<int> s;
-  s.push(1);
-  REQUIRE(s.top()==1);
 }
 
 SCENARIO("empty", "[empty]"){
@@ -51,38 +39,24 @@ SCENARIO("empty", "[empty]"){
   REQUIRE(s2.empty());
 }
 
-class Test
-{
-public:
-  static ssize_t  counter;
-  Test()
-  {
-    std::cout << __PRETTY_FUNCTION__ << std::endl;
-    ++counter;
-  }
-  Test( Test const & )
-  {
-   std::cout << __PRETTY_FUNCTION__ << std::endl;
-    ++counter;
-  }
-  ~Test()
-  {
-    std::cout << __PRETTY_FUNCTION__ << std::endl;
-    --counter;
-  }
-};
 
-ssize_t Test::counter = 0;
-
-SCENARIO("allocator::~allocator") {
-
-  {
-    allocator<Test> allocator{ 4 };
-    allocator.construct( allocator.get() + 1, Test() );
-    allocator.construct( allocator.get() + 2, Test() );
-
-    REQUIRE( Test::counter == 2 );
-  }
-
-  REQUIRE( Test::counter == 0 );
+SCENARIO("threads", "[threads]"){
+  stack<int> s;
+  s.push(1);
+  s.push(2);
+  s.push(3);
+	std::thread t1([&s](){
+		for (int i = 0; i < 5; i++) {
+			s.push(i + 4);
+		}
+	});
+	std::thread t2([&s](){
+		for (int i = 0; i < 5; i++)
+		{
+			s.pop();
+		}
+	});
+	t1.join();
+	t2.join();
+  REQUIRE(s.count()==3);
 }
